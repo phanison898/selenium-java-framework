@@ -19,9 +19,9 @@ import org.testng.annotations.BeforeMethod;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class Base extends Config{
+public class Base extends Config {
 	
-	public ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+	public static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
 	
 	public Base() {
 		super();
@@ -72,7 +72,7 @@ public class Base extends Config{
 			driver.set(new ChromeDriver());
 			break;
 		}
-		browserSetup();
+		browserInitialization();
 	}
 	
 	private void SelectBrowser(String browserName, String grid_url) {
@@ -86,14 +86,14 @@ public class Base extends Config{
 			System.out.println(e.getMessage());
 		}
 		driver.set(new RemoteWebDriver(url,capabilities));
-		browserSetup();
+		browserInitialization();
 	}
 	
-	public WebDriver getDriver() {
+	public static WebDriver getDriver() {
 		return driver.get();
 	}
 	
-	private void browserSetup() {
+	private void browserInitialization() {
 		getDriver().manage().window().maximize();
 		getDriver().manage().deleteAllCookies();
 		getDriver().manage().timeouts().pageLoadTimeout(Long.parseLong(TEST_CONFIG("Pageload-wait")), TimeUnit.SECONDS);
@@ -101,5 +101,4 @@ public class Base extends Config{
 		getDriver().manage().timeouts().setScriptTimeout(Long.parseLong(TEST_CONFIG("Scriptload-wait")), TimeUnit.SECONDS);
 		getDriver().get(TEST_CONFIG("Application-URL"));
 	}
-	
 }

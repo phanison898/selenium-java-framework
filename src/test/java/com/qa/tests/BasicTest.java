@@ -21,5 +21,4 @@ public class BasicTest extends Base{
 	public void test3() {
 		Assert.assertTrue(true);
 	}
-	
 }
